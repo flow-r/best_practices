@@ -92,8 +92,9 @@ Its important to note, that in this example we are using R functions, but any ot
 
 Here is a good example: https://github.com/sahilseth/flowr/blob/master/inst/pipelines/fastq_bam_bwa.conf
 
-> (recommeded for increased portability)
+> (recommeded for increased compatibility)
 
 1. all binaries end with **_exe**
 2. all folders end with **_dir**
 3. all jar files end with **_jar**
+4. specify cpu's using `<%CPU%>`, this makes this value dynamic and is picked up by the flow definition
