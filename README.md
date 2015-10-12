@@ -1,13 +1,12 @@
 ## Best practices for writing modules/pipelines
 
-These are some of the practices we follow in-house. We feel using these makes stiching custom pipelines using a set of modules 
-if very easy. Consider this a check-list of a few ideas.
+These are some of the practices we follow in-house. We feel using these makes stitching custom pipelines using a set of modules quite easy. Consider this a check-list of a few ideas and a work in progress.
 
 ### Module function:
 
 ```{r picard_merge, echo=TRUE, comment=""}
 picard_merge <- function(x, 
-                         samplename = get_opts("samplename"),
+                        samplename = get_opts("samplename"),
                          mergedbam,
                          java_exe = get_opts("java_exe"),
                          java_mem = get_opts("java_mem"),
@@ -17,7 +16,7 @@ picard_merge <- function(x,
 
   check_args()  
   
-	## create a named list of commands
+  ## create a named list of commands
   bam_list = paste("INPUT=", x, sep = "", collapse = " ")
   cmds = list(merge = sprintf("%s %s -Djava.io.tmpdir=%s -jar %s MergeSamFiles %s OUTPUT=%s ASSUME_SORTED=TRUE VALIDATION_STRINGENCY=LENIENT CREATE_INDEX=true USE_THREADING=true",
                               java_exe, java_mem, java_tmp, picard_jar, bam_list, mergedbam))
@@ -27,7 +26,6 @@ picard_merge <- function(x,
   return(list(outfiles = mergedbam, flowmat = flowmat))
 }
 ```
-
 
 1. should accept minimum of two inputs, 
     - **x** (a input file etc, depends on the module) and
@@ -39,7 +37,7 @@ picard_merge <- function(x,
   - Then use `get_opts("param")` to use their value.
 
 ```
-## Here is how the file looks like:
+## Example conf file:
 cat my.conf
 bwa_exe	/apps/bwa/bin/bwa
 ```
@@ -63,10 +61,12 @@ fastq_bam_bwa.conf   ## An *optional* tab-delim conf file, defining default para
 fastq_bam_bwa.def    ## A tab-delimited flow definition file
 ```
 
-Notice how all files have the same basename, that is essential, for the **run** function to find all these files.
+Notice how all files have the same basename; this is essential for the **run** function to find all these files.
 
+We need that,
 1. all three files should have the same basename
-2. can supply multiple flowdefs like fastq_bam_bwa_lsf.def etc, so that user can switch easily.
+2. can have multiple flowdefs like fastq_bam_bwa_lsf.def, fastq_bam_bwa_lsf.def etc, where <basename>.def is used
+ by default. But other are available for users to switch platforms quickly.
 
 **Reason for using the same basename**:
 - When we call `run("fastq_bam_bwa", ....)` it tries to look for a .R file inside flowr's package, `~/flowr/pipelines` OR your current wd. 
