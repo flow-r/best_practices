@@ -4,12 +4,11 @@ These are some of the practices we follow in-house. We feel using these makes st
 
 ### Module function:
 
-```
+```{r}
 # set default options
 set_opts(picard_merge_opts = "ASSUME_SORTED=TRUE VALIDATION_STRINGENCY=LENIENT CREATE_INDEX=true USE_THREADING=true")
 
 # define a R function which returns the cmd to run:
-
 picard_merge <- function(x, 
                         samplename = get_opts("samplename"),
                          mergedbam,
