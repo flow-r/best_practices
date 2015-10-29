@@ -4,22 +4,28 @@ These are some of the practices we follow in-house. We feel using these makes st
 
 ### Module function:
 
-```{r picard_merge, echo=TRUE, comment=""}
+```
+# set default options
+set_opts(picard_merge_opts = "ASSUME_SORTED=TRUE VALIDATION_STRINGENCY=LENIENT CREATE_INDEX=true USE_THREADING=true")
+
+# define a R function which returns the cmd to run:
+
 picard_merge <- function(x, 
                         samplename = get_opts("samplename"),
                          mergedbam,
                          java_exe = get_opts("java_exe"),
                          java_mem = get_opts("java_mem"),
                          java_tmp = get_opts("java_tmp"),
-                         picard_jar = get_opts("picard_jar")){
+                         picard_jar = get_opts("picard_jar"),
+                         picard_merge_opts = get_opts("picard_merge_opts")){
   
 
   check_args()  
   
   ## create a named list of commands
   bam_list = paste("INPUT=", x, sep = "", collapse = " ")
-  cmds = list(merge = sprintf("%s %s -Djava.io.tmpdir=%s -jar %s MergeSamFiles %s OUTPUT=%s ASSUME_SORTED=TRUE VALIDATION_STRINGENCY=LENIENT CREATE_INDEX=true USE_THREADING=true",
-                              java_exe, java_mem, java_tmp, picard_jar, bam_list, mergedbam))
+  cmds = list(merge = sprintf("%s %s -Djava.io.tmpdir=%s -jar %s MergeSamFiles %s OUTPUT=%s %s",
+                              java_exe, java_mem, java_tmp, picard_jar, bam_list, mergedbam, picard_merge_opts))
   
   ## --- INPUT is a NAMED list
   flowmat = to_flowmat(cmds, samplename)
