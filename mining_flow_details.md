@@ -20,9 +20,14 @@ bioawk -tc hdr '{if($started=="FALSE") print $jobname, $exit_code, $cmd}' flow_d
 # started, but have not finished yet (no exit status yet)
 bioawk -tc hdr '{if($started=="TRUE" && $exit_code==-1) print $jobname, $exit_code, $cmd}' flow_details.txt
 
-# drilling into looking at errors
-bioawk -tc hdr '{if($exit_code>0 && $started=="TRUE") print sub(".sh$", ".out", $cmd}' flow_details.txt
+# get a list of files with errors
+fls=$(bioawk -tc hdr '{ if($exit_code>0 && $started=="TRUE"){ gsub(/sh/, "out", $cmd); print $cmd }}' flow_details.txt)
 
+# one may use tail to look at the errors:
+tail -n 20 $fls
+
+# use less, and then use :n to go to the next lines
+less $fls
 
 # this works
 echo $fl | bioawk 'gsub(/sh/, "out", $0)'
