@@ -1,6 +1,6 @@
 >  This page shows a few examples mining through the flow_details log file
 
-# install this cool tool from Heng Li (https://github.com/lh3/bioawk)
+> install this cool tool from Heng Li (https://github.com/lh3/bioawk)
 
 ```
 brew install bioawk
