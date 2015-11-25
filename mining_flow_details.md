@@ -1,6 +1,8 @@
 >  This page shows a few examples mining through the flow_details log file
 
 # install this cool tool from Heng Li (https://github.com/lh3/bioawk)
+
+```
 brew install bioawk
 
 # information regarding exit_code:
@@ -25,7 +27,7 @@ bioawk -tc hdr '{if($exit_code>0 && $started=="TRUE") print sub(".sh$", ".out", 
 # this works
 echo $fl | bioawk 'gsub(/sh/, "out", $0)'
 
-
+```
 
 
 
