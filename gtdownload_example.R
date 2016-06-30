@@ -43,10 +43,10 @@ cat(tools::file_path_as_absolute(odir))
 # submit the jobs to the cluster                                    we need to load a module
 # flowr to_flow x=flowmat.tsv def=flowdef.tsv flow_run_path=~/tmp/ module_cmds="module load cghub" execute=TRUE
 
-# flowr status x=/rsrch2/iacs/iacs_dep/sseth/tmp/flowname-set1-20160630-17-57-13-9wvGxTgB
+# flowr status x=flowname-set1-20160630-17-57-13-9wvGxTgB
 # ================================================================================
 #   Summarizing status (using triggers) of:
-#   /rsrch2/iacs/iacs_dep/sseth/tmp/flowname-set1-20160630-17-57-13-9wvGxTgB
+#   flowname-set1-20160630-17-57-13-9wvGxTgB
 # |======================================================================| 100%
 # |               | total| started| completed| exit_status|status     |
 # |:--------------|-----:|-------:|---------:|-----------:|:----------|
